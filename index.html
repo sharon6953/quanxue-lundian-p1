@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比喻論證配對遊戲 - 課堂互動</title>
+    <style>
+        :root {
+            --font-xl: 2rem;
+            --font-lg: 1.6rem;
+            --font-md: 1.3rem;
+            --font-sm: 1rem;
+            --color-bg: #fdf6f0;
+            --color-card: #ffffff;
+            --color-accent: #5b4a3f;
+            --color-gold: #c8963e;
+            --color-green: #5a8f6b;
+            --color-red: #c0392b;
+            --color-blue: #4a7c96;
+            --color-petal1: #f8a5a5;
+            --color-petal2: #f9c5c5;
+            --color-petal3: #fcd5d5;
+            --color-petal4: #ffe0e0;
+            --color-petal5: #ffd1dc;
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', 'Heiti TC', sans-serif;
+            background: linear-gradient(135deg, #fef9f3 0%, #fdf3e7 30%, #fef5ed 60%, #fdf6f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 85vh;
+            background: var(--color-card);
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            padding: 30px 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #e8d5c4;
+        }
+
+        /* ===== 開始頁面 ===== */
+        .start-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
+            flex: 1;
+        }
+
+        .instruction {
+            font-size: var(--font-xl);
+            font-weight: 700;
+            color: var(--color-accent);
+            text-align: center;
+            line-height: 1.6;
+            letter-spacing: 0.05em;
+            padding: 20px 30px;
+            background: #fef9f3;
+            border-radius: var(--radius);
+            border: 3px dashed #d4b896;
+            max-width: 850px;
+            width: 100%;
+        }
+        .instruction .icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            font-size: var(--font-lg);
+            font-weight: 700;
+            padding: 18px 45px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.06em;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            box-shadow: var(--shadow);
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+        }
+        .btn:active {
+            transform: translateY(-1px) scale(0.97);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.1s ease;
+        }
+
+        .btn-basic {
+            background: linear-gradient(135deg, #5b8c7a, #4a7a68);
+            color: #fff;
+            font-size: 2rem;
+            padding: 22px 55px;
+            border: 3px solid #3d6b58;
+        }
+        .btn-basic:hover {
+            background: linear-gradient(135deg, #6a9d8b, #5b8c7a);
+        }
+
+        .btn-challenge {
+            background: linear-gradient(135deg, #d4893b, #c0732a);
+            color: #fff;
+            font-size: 2rem;
+            padding: 22px 55px;
+            border: 3px solid #a85f1e;
+        }
+        .btn-challenge:hover {
+            background: linear-gradient(135deg, #e09a4d, #d4893b);
+        }
+
+        .btn-return {
+            background: #f5f0eb;
+            color: var(--color-accent);
+            border: 3px solid #c4b5a3;
+            font-size: var(--font-md);
+            padding: 14px 36px;
+            margin-top: 10px;
+        }
+        .btn-return:hover {
+            background: #ebe3d9;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #5b8c7a, #4a7a68);
+            color: #fff;
+            font-size: var(--font-lg);
+            padding: 16px 50px;
+            border: 3px solid #3d6b58;
+            letter-spacing: 0.08em;
+        }
+
+        /* ===== 計時器 ===== */
+        .timer-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: var(--font-xl);
+            font-weight: 700;
+            color: var(--color-accent);
+            background: #fef9f3;
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: 3px solid #d4b896;
+            letter-spacing: 0.04em;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .timer-bar .time {
+            font-variant-numeric: tabular-nums;
+            font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
+            font-size: 2.2rem;
+            color: #3d2b1f;
+            min-width: 90px;
+            text-align: center;
+        }
+        .timer-bar .label {
+            font-size: var(--font-md);
+            color: #7a6a5c;
+        }
+
+        /* ===== 基礎版 ===== */
+        .basic-game {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            flex: 1;
+            gap: 20px;
+        }
+        .basic-game.active {
+            display: flex;
+        }
+
+        .basic-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .basic-main {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        .left-column,
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 16px;
+            border-radius: var(--radius);
+            background: #fefaf6;
+            border: 2px solid #e8d5c4;
+        }
+        .left-column {
+            flex: 1.3;
+            min-width: 280px;
+        }
+        .right-column {
+            flex: 0.8;
+            min-width: 240px;
+            justify-content: center;
+            gap: 20px;
+        }
+        .column-title {
+            font-size: var(--font-md);
+            font-weight: 700;
+            color: #7a6a5c;
+            text-align: center;
+            letter-spacing: 0.04em;
+            padding-bottom: 6px;
+            border-bottom: 2px dashed #d4b896;
+        }
+
+        .sentence-card {
+            font-size: var(--font-lg);
+            font-weight: 600;
+            padding: 16px 20px;
+            background: #fff;
+            border: 3px solid #d4c5b0;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            transition: all 0.25s ease;
+            letter-spacing: 0.04em;
+            color: #3d2b1f;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            min-height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sentence-card.drag-over {
+            border-color: #c8963e !important;
+            background: #fff9ef !important;
+            box-shadow: 0 0 0 8px rgba(200, 150, 62, 0.15);
+            transform: scale(1.02);
+        }
+        .sentence-card.matched {
+            border-color: #5a8f6b !important;
+            background: #eaf7ef !important;
+            cursor: default;
+            color: #3d6b4f;
+            pointer-events: none;
+            box-shadow: none;
+            opacity: 0.85;
+        }
+        .sentence-card.matched::after {
+            content: ' ✓';
+            color: #5a8f6b;
+            font-weight: 700;
+            font-size: 1.4em;
+        }
+
+        .option-card {
+            font-size: var(--font-lg);
+            font-weight: 600;
+            padding: 20px 16px;
+            background: #fffefb;
+            border: 3px solid #c4b5a3;
+            border-radius: var(--radius-sm);
+            cursor: grab;
+            text-align: center;
+            transition: all 0.25s ease;
+            letter-spacing: 0.04em;
+            color: #3d2b1f;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-card:active {
+            cursor: grabbing;
+            transform: scale(0.97);
+        }
+        .option-card.dragging {
+            opacity: 0.5;
+            border-style: dashed;
+        }
+
+        .feedback {
+            font-size: var(--font-xl);
+            font-weight: 700;
+            text-align: center;
+            padding: 10px 20px;
+            min-height: 55px;
+            letter-spacing: 0.04em;
+            transition: all 0.3s ease;
+        }
+        .feedback.correct {
+            color: #5a8f6b;
+        }
+        .feedback.wrong {
+            color: #c0392b;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            15% {
+                transform: translateX(-8px);
+            }
+            30% {
+                transform: translateX(8px);
+            }
+            45% {
+                transform: translateX(-6px);
+            }
+            60% {
+                transform: translateX(6px);
+            }
+            75% {
+                transform: translateX(-3px);
+            }
+            90% {
+                transform: translateX(3px);
+            }
+        }
+
+        .result-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .result-overlay.active {
+            display: flex;
+        }
+        .result-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px 45px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 4px solid #d4b896;
+            max-width: 550px;
+            width: 90%;
+        }
+        .result-card h2 {
+            font-size: 2.4rem;
+            color: #3d2b1f;
+            margin-bottom: 12px;
+        }
+        .result-card .result-time {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #c8963e;
+            margin: 12px 0;
+        }
+
+        /* ===== 挑戰版 ===== */
+        .challenge-game {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            flex: 1;
+            gap: 16px;
+            align-items: center;
+        }
+        .challenge-game.active {
+            display: flex;
+        }
+
+        .challenge-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .challenge-info {
+            font-size: var(--font-md);
+            font-weight: 600;
+            color: #7a6a5c;
+            letter-spacing: 0.04em;
+        }
+
+        .challenge-question-zone {
+            width: 100%;
+            max-width: 750px;
+            padding: 18px 24px;
+            background: #fffefb;
+            border: 3px solid #d4b896;
+            border-radius: var(--radius);
+            text-align: center;
+            font-size: var(--font-xl);
+            font-weight: 700;
+            color: #3d2b1f;
+            letter-spacing: 0.05em;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+        }
+
+        .challenge-drop-zone {
+            width: 100%;
+            max-width: 750px;
+            height: 420px;
+            background: #fdfaf5;
+            border: 3px dashed #c4b5a3;
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.03);
+        }
+        .drop-zone-label {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-sm);
+            color: #b0a090;
+            letter-spacing: 0.04em;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .landing-line {
+            position: absolute;
+            bottom: 55px;
+            left: 5%;
+            width: 90%;
+            height: 3px;
+            background: #e0c8a8;
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .landing-line::after {
+            content: '⚠ 落地線';
+            position: absolute;
+            right: 0;
+            top: -22px;
+            font-size: 0.8rem;
+            color: #c0a080;
+            letter-spacing: 0.04em;
+        }
+
+        .falling-option {
+            position: absolute;
+            font-size: var(--font-lg);
+            font-weight: 600;
+            padding: 16px 10px;
+            background: #fffefb;
+            border: 3px solid #c4b5a3;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            text-align: center;
+            letter-spacing: 0.04em;
+            color: #3d2b1f;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+            transition: background 0.15s ease, border-color 0.15s ease;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28%;
+            min-width: 120px;
+            top: -80px;
+            transform: translateX(-50%);
+        }
+        /* 三個方框均分，永不溢出 */
+        .falling-option.pos-0 {
+            left: 20%;
+        }
+        .falling-option.pos-1 {
+            left: 50%;
+        }
+        .falling-option.pos-2 {
+            left: 80%;
+        }
+        .falling-option:hover {
+            background: #fffdf7;
+            border-color: #8c7b6a;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        .falling-option:active {
+            transform: translateX(-50%) scale(0.93);
+            transition: all 0.06s ease;
+        }
+
+        .challenge-feedback {
+            font-size: var(--font-xl);
+            font-weight: 700;
+            text-align: center;
+            min-height: 50px;
+            letter-spacing: 0.04em;
+        }
+
+        /* ===== 花瓣飄散 ===== */
+        .petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 200;
+            border-radius: 50% 30% 50% 30%;
+            animation: petal-fly 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+        }
+        @keyframes petal-fly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) rotate(0deg) scale(1);
+            }
+            60% {
+                opacity: 0.7;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--dx), var(--dy)) rotate(var(--dr)) scale(0.2);
+            }
+        }
+
+        /* ===== 響應式 ===== */
+        @media (max-width: 800px) {
+            .basic-main {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .left-column,
+            .right-column {
+                flex: auto;
+                min-width: auto;
+            }
+            .right-column {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+            }
+            .option-card {
+                flex: 1;
+                min-width: 120px;
+                font-size: var(--font-md);
+                padding: 14px 10px;
+            }
+            .sentence-card {
+                font-size: var(--font-md);
+                padding: 12px 14px;
+            }
+            .btn {
+                font-size: var(--font-md);
+                padding: 14px 28px;
+                min-width: 140px;
+            }
+            .btn-basic,
+            .btn-challenge {
+                font-size: 1.4rem;
+                padding: 16px 32px;
+            }
+            .instruction {
+                font-size: 1.3rem;
+                padding: 14px 16px;
+            }
+            .timer-bar {
+                font-size: 1.2rem;
+                padding: 8px 16px;
+                gap: 10px;
+            }
+            .timer-bar .time {
+                font-size: 1.5rem;
+                min-width: 60px;
+            }
+            .challenge-drop-zone {
+                height: 320px;
+            }
+            .falling-option {
+                font-size: var(--font-md);
+                padding: 12px 6px;
+                min-width: 85px;
+                width: 30%;
+            }
+            .falling-option.pos-0 {
+                left: 18%;
+            }
+            .falling-option.pos-1 {
+                left: 50%;
+            }
+            .falling-option.pos-2 {
+                left: 82%;
+            }
+            .challenge-question-zone {
+                font-size: var(--font-md);
+                padding: 12px 16px;
+            }
+            .feedback {
+                font-size: 1.3rem;
+            }
+            .result-card h2 {
+                font-size: 1.6rem;
+            }
+            .result-card .result-time {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 14px 10px;
+                border-radius: 16px;
+                border-width: 2px;
+            }
+            .sentence-card {
+                font-size: 1rem;
+                padding: 10px 10px;
+            }
+            .option-card {
+                font-size: 1rem;
+                padding: 10px 6px;
+            }
+            .falling-option {
+                font-size: 0.9rem;
+                padding: 10px 4px;
+                min-width: 70px;
+                width: 30%;
+            }
+            .falling-option.pos-0 {
+                left: 16%;
+            }
+            .falling-option.pos-1 {
+                left: 50%;
+            }
+            .falling-option.pos-2 {
+                left: 84%;
+            }
+            .btn {
+                font-size: 1rem;
+                padding: 10px 20px;
+                min-width: 100px;
+            }
+            .btn-basic,
+            .btn-challenge {
+                font-size: 1.1rem;
+                padding: 12px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <!-- ========== 開始頁面 ========== -->
+        <div class="start-page" id="startPage">
+            <div class="instruction">
+                <span class="icon">📖</span>
+                判斷方框內的比喻論證説明了甚麽道理？
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-basic" onclick="startBasic()">基礎版</button>
+                <button class="btn btn-challenge" onclick="startChallenge()">挑戰版</button>
+            </div>
+        </div>
+
+        <!-- ========== 基礎版 ========== -->
+        <div class="basic-game" id="basicGame">
+            <div class="basic-top">
+                <button class="btn btn-start" id="basicStartBtn" onclick="beginBasicTimer()">▶ 開始</button>
+                <div class="timer-bar">
+                    <span class="label">⏱ 計時：</span>
+                    <span class="time" id="basicTimer">00:00</span>
+                </div>
+            </div>
+            <div class="feedback" id="basicFeedback"></div>
+            <div class="basic-main">
+                <div class="left-column" id="leftColumn">
+                    <div class="column-title">📝 比喻論證句子</div>
+                    <div class="sentence-card" data-index="0" data-answer="改變本性，由惡變善">1. 青出於藍</div>
+                    <div class="sentence-card" data-index="1" data-answer="改變本性，由惡變善">2. 冰寒於水</div>
+                    <div class="sentence-card" data-index="2" data-answer="不再為惡">3. 木材→車輪，不再挺直</div>
+                    <div class="sentence-card" data-index="3" data-answer="增長知識，培養品德">4. 木材→墨繩→取直</div>
+                    <div class="sentence-card" data-index="4" data-answer="增長知識，培養品德">5. 金屬→磨刀石→鋒利</div>
+                </div>
+                <div class="right-column" id="rightColumn">
+                    <div class="column-title">🎯 論點選項</div>
+                    <!-- 選項順序會由JavaScript隨機排列 -->
+                    <div class="option-card" draggable="true" data-answer="改變本性，由惡變善">改變本性，由惡變善</div>
+                    <div class="option-card" draggable="true" data-answer="不再為惡">不再為惡</div>
+                    <div class="option-card" draggable="true" data-answer="增長知識，培養品德">增長知識，培養品德</div>
+                </div>
+            </div>
+            <button class="btn btn-return" onclick="goToStart()" style="margin-top:8px;">↩ 返回開始頁面</button>
+        </div>
+
+        <!-- ========== 挑戰版 ========== -->
+        <div class="challenge-game" id="challengeGame">
+            <div class="challenge-top">
+                <button class="btn btn-start" id="challengeStartBtn" onclick="beginChallenge()">▶ 開始挑戰</button>
+                <div class="timer-bar">
+                    <span class="label">⏱ 計時：</span>
+                    <span class="time" id="challengeTimer">00:00</span>
+                </div>
+                <span class="challenge-info" id="challengeProgress">準備開始</span>
+            </div>
+            <div class="challenge-question-zone" id="challengeQuestion">
+                點擊「開始挑戰」按鈕
+            </div>
+            <div class="challenge-drop-zone" id="challengeDropZone">
+                <div class="landing-line"></div>
+                <div class="drop-zone-label">⬇ 選項方框從上方掉落，請在落地前點擊正確答案 ⬇</div>
+            </div>
+            <div class="challenge-feedback" id="challengeFeedback"></div>
+            <button class="btn btn-return" onclick="goToStart()" style="margin-top:4px;">↩ 返回開始頁面</button>
+        </div>
+    </div>
+
+    <!-- ========== 結果彈窗 ========== -->
+    <div class="result-overlay" id="resultOverlay">
+        <div class="result-card" id="resultCard"></div>
+    </div>
+
+    <script>
+        // ==================== 全域變數 ====================
+        let basicTimerInterval = null;
+        let basicSeconds = 0;
+        let basicTimerRunning = false;
+        let basicMatchedCount = 0;
+        const basicTotalSentences = 5;
+
+        let challengeTimerInterval = null;
+        let challengeSeconds = 0;
+        let challengeTimerRunning = false;
+        let challengeRemaining = [];
+        let challengeCompletedCount = 0;
+        let challengeActive = false;
+        let challengeAnimationId = null;
+        let challengeFallingOptions = [];
+        let challengeFallSpeed = 1.15;
+        let challengeDropZoneHeight = 420;
+        let challengeLandingY = 350;
+        let challengeOptionHeight = 70;
+        let challengeRoundActive = false;
+        let challengeCurrentItem = null;
+
+        // ==================== 頁面切換 ====================
+        function showPage(pageId) {
+            document.getElementById('startPage').style.display = 'none';
+            document.getElementById('basicGame').classList.remove('active');
+            document.getElementById('challengeGame').classList.remove('active');
+            document.getElementById('basicGame').style.display = 'none';
+            document.getElementById('challengeGame').style.display = 'none';
+
+            if (pageId === 'start') {
+                document.getElementById('startPage').style.display = 'flex';
+            } else if (pageId === 'basic') {
+                document.getElementById('basicGame').style.display = 'flex';
+                document.getElementById('basicGame').classList.add('active');
+                resetBasicGame();
+            } else if (pageId === 'challenge') {
+                document.getElementById('challengeGame').style.display = 'flex';
+                document.getElementById('challengeGame').classList.add('active');
+                resetChallengeGame();
+            }
+            document.getElementById('resultOverlay').classList.remove('active');
+        }
+
+        function goToStart() {
+            stopAllTimers();
+            cancelChallengeAnimation();
+            showPage('start');
+            document.getElementById('resultOverlay').classList.remove('active');
+        }
+
+        function stopAllTimers() {
+            if (basicTimerInterval) clearInterval(basicTimerInterval);
+            basicTimerInterval = null;
+            basicTimerRunning = false;
+            if (challengeTimerInterval) clearInterval(challengeTimerInterval);
+            challengeTimerInterval = null;
+            challengeTimerRunning = false;
+        }
+
+        // ==================== 輔助函數：隨機排列數組 ====================
+        function shuffleArray(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // ==================== 基礎版 (拖曳配對，選項隨機順序) ====================
+        function startBasic() {
+            showPage('basic');
+        }
+
+        function resetBasicGame() {
+            stopAllTimers();
+            basicSeconds = 0;
+            basicTimerRunning = false;
+            basicMatchedCount = 0;
+            document.getElementById('basicTimer').textContent = '00:00';
+            document.getElementById('basicFeedback').textContent = '';
+            document.getElementById('basicFeedback').className = 'feedback';
+            document.getElementById('basicStartBtn').disabled = false;
+            document.getElementById('basicStartBtn').style.opacity = '1';
+
+            // 重置句子卡片
+            const sentenceCards = document.querySelectorAll('#leftColumn .sentence-card');
+            sentenceCards.forEach(card => {
+                card.classList.remove('drag-over', 'matched');
+                card.style.pointerEvents = 'auto';
+            });
+
+            // 右欄選項隨機排列
+            const rightColumn = document.getElementById('rightColumn');
+            const optionCards = Array.from(rightColumn.querySelectorAll('.option-card'));
+            // 保存標題元素
+            const columnTitle = rightColumn.querySelector('.column-title');
+            // 打亂選項順序
+            const shuffledOptions = shuffleArray(optionCards);
+            // 清空右欄並重新加入標題與打亂後的選項
+            rightColumn.innerHTML = '';
+            rightColumn.appendChild(columnTitle);
+            shuffledOptions.forEach(card => {
+                card.classList.remove('dragging');
+                card.draggable = true;
+                card.style.opacity = '1';
+                card.style.cursor = 'grab';
+                card.style.pointerEvents = 'auto';
+                rightColumn.appendChild(card);
+            });
+
+            document.getElementById('resultOverlay').classList.remove('active');
+        }
+
+        function beginBasicTimer() {
+            if (basicTimerRunning) return;
+            basicTimerRunning = true;
+            basicSeconds = 0;
+            document.getElementById('basicTimer').textContent = '00:00';
+            document.getElementById('basicStartBtn').disabled = true;
+            document.getElementById('basicStartBtn').style.opacity = '0.6';
+            document.getElementById('basicFeedback').textContent = '';
+            document.getElementById('basicFeedback').className = 'feedback';
+
+            const sentenceCards = document.querySelectorAll('#leftColumn .sentence-card');
+            sentenceCards.forEach(card => {
+                if (!card.classList.contains('matched')) {
+                    card.style.pointerEvents = 'auto';
+                }
+            });
+
+            bindBasicDragEvents();
+
+            basicTimerInterval = setInterval(() => {
+                basicSeconds++;
+                document.getElementById('basicTimer').textContent = formatTime(basicSeconds);
+            }, 1000);
+        }
+
+        function bindBasicDragEvents() {
+            const sentenceCards = document.querySelectorAll('#leftColumn .sentence-card');
+            const optionCards = document.querySelectorAll('#rightColumn .option-card');
+
+            optionCards.forEach(card => {
+                card.addEventListener('dragstart', function(e) {
+                    if (!basicTimerRunning) {
+                        e.preventDefault();
+                        return;
+                    }
+                    e.dataTransfer.setData('text/plain', this.getAttribute('data-answer'));
+                    e.dataTransfer.effectAllowed = 'move';
+                    this.classList.add('dragging');
+                    document.getElementById('basicFeedback').textContent = '';
+                    document.getElementById('basicFeedback').className = 'feedback';
+                });
+
+                card.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                    sentenceCards.forEach(s => s.classList.remove('drag-over'));
+                });
+            });
+
+            sentenceCards.forEach(card => {
+                card.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    if (!basicTimerRunning) return;
+                    if (this.classList.contains('matched')) return;
+                    e.dataTransfer.dropEffect = 'move';
+                    this.classList.add('drag-over');
+                });
+
+                card.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drag-over');
+                });
+
+                card.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    if (!basicTimerRunning) return;
+                    if (this.classList.contains('matched')) return;
+
+                    const draggedAnswer = e.dataTransfer.getData('text/plain');
+                    const correctAnswer = this.getAttribute('data-answer');
+
+                    if (draggedAnswer === correctAnswer) {
+                        this.classList.add('matched');
+                        this.style.pointerEvents = 'none';
+                        basicMatchedCount++;
+                        document.getElementById('basicFeedback').textContent = '回答正確！';
+                        document.getElementById('basicFeedback').className = 'feedback correct';
+                        spawnPetals(this);
+
+                        if (basicMatchedCount >= basicTotalSentences) {
+                            completeBasicGame();
+                        }
+                    } else {
+                        document.getElementById('basicFeedback').textContent = '回答錯誤，再嘗試一下。';
+                        document.getElementById('basicFeedback').className = 'feedback wrong';
+                    }
+                });
+            });
+        }
+
+        function completeBasicGame() {
+            stopAllTimers();
+            basicTimerRunning = false;
+            const timeStr = formatTime(basicSeconds);
+            document.getElementById('basicFeedback').textContent = '🎉 全部完成！';
+            document.getElementById('basicFeedback').className = 'feedback correct';
+
+            const resultCard = document.getElementById('resultCard');
+            resultCard.innerHTML = `
+                <h2>🎉 基礎版完成！</h2>
+                <p style="font-size:1.4rem;color:#5b4a3f;">全部5個句子配對完成</p>
+                <div class="result-time">⏱ 用時：${timeStr}</div>
+                <button class="btn btn-return" onclick="goToStart()" style="margin-top:16px;">↩ 返回開始頁面</button>
+            `;
+            document.getElementById('resultOverlay').classList.add('active');
+
+            document.querySelectorAll('#leftColumn .sentence-card').forEach(c => c.style.pointerEvents = 'none');
+            document.querySelectorAll('#rightColumn .option-card').forEach(c => {
+                c.draggable = false;
+                c.style.pointerEvents = 'none';
+                c.style.cursor = 'default';
+            });
+        }
+
+        // ==================== 挑戰版 (錯誤重現，版面優化) ====================
+        function startChallenge() {
+            showPage('challenge');
+        }
+
+        function resetChallengeGame() {
+            stopAllTimers();
+            cancelChallengeAnimation();
+            challengeSeconds = 0;
+            challengeTimerRunning = false;
+            challengeRemaining = [];
+            challengeCompletedCount = 0;
+            challengeActive = false;
+            challengeRoundActive = false;
+            challengeFallingOptions = [];
+            challengeCurrentItem = null;
+            document.getElementById('challengeTimer').textContent = '00:00';
+            document.getElementById('challengeProgress').textContent = '準備開始';
+            document.getElementById('challengeQuestion').textContent = '點擊「開始挑戰」按鈕';
+            document.getElementById('challengeFeedback').textContent = '';
+            document.getElementById('challengeFeedback').className = 'challenge-feedback';
+            document.getElementById('challengeStartBtn').disabled = false;
+            document.getElementById('challengeStartBtn').style.opacity = '1';
+            const dropZone = document.getElementById('challengeDropZone');
+            dropZone.querySelectorAll('.falling-option').forEach(el => el.remove());
+            document.getElementById('resultOverlay').classList.remove('active');
+            updateChallengeDimensions();
+        }
+
+        function updateChallengeDimensions() {
+            const dropZone = document.getElementById('challengeDropZone');
+            challengeDropZoneHeight = dropZone.clientHeight;
+            challengeLandingY = challengeDropZoneHeight - 65;
+            challengeOptionHeight = 70;
+            if (window.innerWidth < 480) {
+                challengeOptionHeight = 55;
+                challengeFallSpeed = 1.3;
+            } else if (window.innerWidth < 800) {
+                challengeOptionHeight = 60;
+                challengeFallSpeed = 1.2;
+            } else {
+                challengeOptionHeight = 70;
+                challengeFallSpeed = 1.15;
+            }
+        }
+
+        function beginChallenge() {
+            if (challengeTimerRunning) return;
+            updateChallengeDimensions();
+
+            const allSentences = [
+                { text: '青出於藍', answer: '改變本性，由惡變善' },
+                { text: '冰寒於水', answer: '改變本性，由惡變善' },
+                { text: '木材→車輪，不再挺直', answer: '不再為惡' },
+                { text: '木材→墨繩→取直', answer: '增長知識，培養品德' },
+                { text: '金屬→磨刀石→鋒利', answer: '增長知識，培養品德' },
+            ];
+            challengeRemaining = shuffleArray([...allSentences]);
+            challengeCompletedCount = 0;
+            challengeActive = true;
+            challengeRoundActive = false;
+
+            const dropZone = document.getElementById('challengeDropZone');
+            dropZone.querySelectorAll('.falling-option').forEach(el => el.remove());
+            challengeFallingOptions = [];
+            challengeCurrentItem = null;
+
+            challengeSeconds = 0;
+            challengeTimerRunning = true;
+            document.getElementById('challengeTimer').textContent = '00:00';
+            document.getElementById('challengeStartBtn').disabled = true;
+            document.getElementById('challengeStartBtn').style.opacity = '0.6';
+            document.getElementById('challengeFeedback').textContent = '';
+            document.getElementById('challengeFeedback').className = 'challenge-feedback';
+            document.getElementById('challengeProgress').textContent = `已完成 0 / 5`;
+
+            challengeTimerInterval = setInterval(() => {
+                challengeSeconds++;
+                document.getElementById('challengeTimer').textContent = formatTime(challengeSeconds);
+            }, 1000);
+
+            showNextChallengeRound();
+        }
+
+        function showNextChallengeRound() {
+            if (challengeCompletedCount >= 5) {
+                completeChallengeGame();
+                return;
+            }
+            if (challengeRemaining.length === 0 && challengeCompletedCount < 5) {
+                completeChallengeGame();
+                return;
+            }
+
+            updateChallengeDimensions();
+            challengeRoundActive = true;
+            challengeCurrentItem = challengeRemaining.shift();
+            document.getElementById('challengeQuestion').textContent = `📌 ${challengeCurrentItem.text}`;
+            document.getElementById('challengeProgress').textContent = `已完成 ${challengeCompletedCount} / 5`;
+            document.getElementById('challengeFeedback').textContent = '';
+            document.getElementById('challengeFeedback').className = 'challenge-feedback';
+
+            const dropZone = document.getElementById('challengeDropZone');
+            dropZone.querySelectorAll('.falling-option').forEach(el => el.remove());
+            challengeFallingOptions = [];
+
+            const options = [
+                { text: '改變本性，由惡變善', answer: '改變本性，由惡變善' },
+                { text: '不再為惡', answer: '不再為惡' },
+                { text: '增長知識，培養品德', answer: '增長知識，培養品德' },
+            ];
+            const shuffledOptions = shuffleArray(options);
+
+            shuffledOptions.forEach((opt, i) => {
+                const el = document.createElement('div');
+                el.className = `falling-option pos-${i}`;
+                el.textContent = opt.text;
+                el.setAttribute('data-answer', opt.answer);
+                el.style.top = '-80px';
+                el.addEventListener('click', function(e) {
+                    if (!challengeRoundActive) return;
+                    handleChallengeClick(opt.answer, el);
+                });
+                el.addEventListener('touchend', function(e) {
+                    if (!challengeRoundActive) return;
+                    e.preventDefault();
+                    handleChallengeClick(opt.answer, el);
+                });
+                dropZone.appendChild(el);
+                challengeFallingOptions.push({
+                    el: el,
+                    y: -80,
+                    answer: opt.answer,
+                });
+            });
+
+            cancelChallengeAnimation();
+            animateChallengeFall();
+        }
+
+        function handleChallengeClick(clickedAnswer, clickedEl) {
+            if (!challengeRoundActive || !challengeCurrentItem) return;
+            challengeRoundActive = false;
+            cancelChallengeAnimation();
+
+            const correctAnswer = challengeCurrentItem.answer;
+
+            if (clickedAnswer === correctAnswer) {
+                challengeCompletedCount++;
+                document.getElementById('challengeFeedback').textContent = '✅ 回答正確！';
+                document.getElementById('challengeFeedback').style.color = '#5a8f6b';
+                document.getElementById('challengeFeedback').className = 'challenge-feedback';
+                spawnPetals(clickedEl);
+                clickedEl.style.borderColor = '#5a8f6b';
+                clickedEl.style.background = '#eaf7ef';
+                document.getElementById('challengeProgress').textContent = `已完成 ${challengeCompletedCount} / 5`;
+
+                setTimeout(() => {
+                    const dropZone = document.getElementById('challengeDropZone');
+                    dropZone.querySelectorAll('.falling-option').forEach(el => el.remove());
+                    challengeFallingOptions = [];
+                    document.getElementById('challengeFeedback').textContent = '';
+                    document.getElementById('challengeFeedback').style.color = '';
+                    document.getElementById('challengeFeedback').className = 'challenge-feedback';
+                    showNextChallengeRound();
+                }, 1200);
+            } else {
+                document.getElementById('challengeFeedback').textContent = '❌ 回答錯誤，題目將再次出現。';
+                document.getElementById('challengeFeedback').style.color = '#c0392b';
+                document.getElementById('challengeFeedback').className = 'challenge-feedback';
+                clickedEl.style.borderColor = '#c0392b';
+                clickedEl.style.background = '#fde8e8';
+                challengeFallingOptions.forEach(fo => {
+                    if (fo.answer === correctAnswer) {
+                        fo.el.style.borderColor = '#5a8f6b';
+                        fo.el.style.background = '#eaf7ef';
+                    }
+                });
+
+                challengeRemaining.push(challengeCurrentItem);
+                challengeRemaining = shuffleArray(challengeRemaining);
+
+                setTimeout(() => {
+                    const dropZone = document.getElementById('challengeDropZone');
+                    dropZone.querySelectorAll('.falling-option').forEach(el => el.remove());
+                    challengeFallingOptions = [];
+                    document.getElementById('challengeFeedback').textContent = '';
+                    document.getElementById('challengeFeedback').style.color = '';
+                    document.getElementById('challengeFeedback').className = 'challenge-feedback';
+                    showNextChallengeRound();
+                }, 1600);
+            }
+        }
+
+        function animateChallengeFall() {
+            if (!challengeRoundActive) return;
+
+            let allLanded = false;
+
+            function step() {
+                if (!challengeRoundActive) {
+                    challengeAnimationId = null;
+                    return;
+                }
+
+                allLanded = true;
+                challengeFallingOptions.forEach(fo => {
+                    fo.y += challengeFallSpeed;
+                    fo.el.style.top = fo.y + 'px';
+                    const elBottom = fo.y + challengeOptionHeight;
+                    if (elBottom < challengeLandingY) {
+                        allLanded = false;
+                    }
+                });
+
+                if (allLanded && challengeRoundActive) {
+                    challengeRoundActive = false;
+                    cancelChallengeAnimation();
+                    document.getElementById('challengeFeedback').textContent = '⏰ 落地了！未能及時選擇。題目將再次出現。';
+                    document.getElementById('challengeFeedback').style.color = '#c0392b';
+                    document.getElementById('challengeFeedback').className = 'challenge-feedback';
+
+                    const correctAnswer = challengeCurrentItem.answer;
+                    challengeFallingOptions.forEach(fo => {
+                        if (fo.answer === correctAnswer) {
+                            fo.el.style.borderColor = '#5a8f6b';
+                            fo.el.style.background = '#eaf7ef';
+                        }
+                    });
+
+                    challengeRemaining.push(challengeCurrentItem);
+                    challengeRemaining = shuffleArray(challengeRemaining);
+
+                    setTimeout(() => {
+                        const dz = document.getElementById('challengeDropZone');
+                        dz.querySelectorAll('.falling-option').forEach(el => el.remove());
+                        challengeFallingOptions = [];
+                        document.getElementById('challengeFeedback').textContent = '';
+                        document.getElementById('challengeFeedback').style.color = '';
+                        document.getElementById('challengeFeedback').className = 'challenge-feedback';
+                        showNextChallengeRound();
+                    }, 1600);
+                    return;
+                }
+
+                challengeAnimationId = requestAnimationFrame(step);
+            }
+
+            challengeAnimationId = requestAnimationFrame(step);
+        }
+
+        function cancelChallengeAnimation() {
+            if (challengeAnimationId) {
+                cancelAnimationFrame(challengeAnimationId);
+                challengeAnimationId = null;
+            }
+        }
+
+        function completeChallengeGame() {
+            stopAllTimers();
+            cancelChallengeAnimation();
+            challengeTimerRunning = false;
+            challengeActive = false;
+            challengeRoundActive = false;
+            const timeStr = formatTime(challengeSeconds);
+
+            document.getElementById('challengeQuestion').textContent = '全部完成！';
+            document.getElementById('challengeProgress').textContent = '';
+            document.getElementById('challengeFeedback').textContent = '';
+            document.getElementById('challengeFeedback').className = 'challenge-feedback';
+            const dropZone = document.getElementById('challengeDropZone');
+            dropZone.querySelectorAll('.falling-option').forEach(el => el.remove());
+            challengeFallingOptions = [];
+
+            const resultCard = document.getElementById('resultCard');
+            resultCard.innerHTML = `
+                <h2>🏆 挑戰版成功！</h2>
+                <p style="font-size:1.3rem;color:#5b4a3f;">5個比喻論證全部配對完成</p>
+                <div class="result-time">⏱ 用時：${timeStr}</div>
+                <button class="btn btn-return" onclick="goToStart()" style="margin-top:16px;">↩ 返回開始頁面</button>
+            `;
+            document.getElementById('resultOverlay').classList.add('active');
+        }
+
+        // ==================== 花瓣飄散效果 ====================
+        function spawnPetals(sourceEl) {
+            const rect = sourceEl.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const petalCount = 28;
+            const colors = [
+                '#f8a5a5', '#f9b8b8', '#fcd5d5', '#ffe0e0', '#ffd1dc',
+                '#f7c5c5', '#fdd9d9', '#ffe8e8', '#fbb5b5', '#ffc3c3',
+                '#f9aaaa', '#fecfcf', '#ffdbdb', '#f8b0b0', '#ffd6d6',
+            ];
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = 10 + Math.random() * 16;
+                petal.style.width = size + 'px';
+                petal.style.height = (size * 0.7) + 'px';
+                petal.style.background = colors[Math.floor(Math.random() * colors.length)];
+                petal.style.left = centerX + 'px';
+                petal.style.top = centerY + 'px';
+                petal.style.borderRadius = '50% 30% 50% 30%';
+                petal.style.opacity = '0.9';
+
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 80 + Math.random() * 200;
+                const dx = Math.cos(angle) * distance;
+                const dy = Math.sin(angle) * distance - 40;
+                const dr = (Math.random() - 0.5) * 720;
+
+                petal.style.setProperty('--dx', dx + 'px');
+                petal.style.setProperty('--dy', dy + 'px');
+                petal.style.setProperty('--dr', dr + 'deg');
+                petal.style.animationDuration = (1 + Math.random() * 1.6) + 's';
+                petal.style.animationDelay = (Math.random() * 0.25) + 's';
+
+                document.body.appendChild(petal);
+                const totalDuration = parseFloat(petal.style.animationDuration) + parseFloat(petal.style.animationDelay);
+                setTimeout(() => {
+                    if (petal.parentNode) petal.parentNode.removeChild(petal);
+                }, totalDuration * 1000 + 200);
+            }
+        }
+
+        // ==================== 工具函數 ====================
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        // ==================== 初始化 ====================
+        function init() {
+            showPage('start');
+            window.addEventListener('resize', () => {
+                if (document.getElementById('challengeGame').classList.contains('active')) {
+                    updateChallengeDimensions();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('beforeunload', () => {
+            stopAllTimers();
+            cancelChallengeAnimation();
+        });
+
+        document.getElementById('resultOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                // 點擊外部不關閉，確保看到結果
+            }
+        });
+    </script>
+</body>
+</html>
